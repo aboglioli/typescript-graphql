@@ -8,26 +8,36 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "tsc && node dist/index.js",
-    "dev": "tsc -w & nodemon dist/index.js",
-    "lint": "eslint --fix 'src/**/*.ts'",
-    "clean": "rm -r dist"
+    "start": "cross-env NODE_ENV=production node dist/index.js",
+    "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
+    "test": "cross-env NODE_ENV=test mocha -r ts-node/register 'tests/**/*.test.ts'",
+    "lint": "eslint --fix 'src/**/*.ts'"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "graphql-yoga": "^1.18.1",
     "type-graphql": "^0.17.4"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/dotenv": "^6.1.1",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.6.9",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "nodemon": "^1.19.1",
+    "graphql-request": "^1.8.2",
+    "mocha": "^6.2.0",
     "prettier": "^1.18.2",
     "reflect-metadata": "^0.1.13",
+    "ts-node": "^8.3.0",
+    "ts-node-dev": "^1.0.0-pre.40",
     "typescript": "^3.5.3"
   }
 }

@@ -13,7 +13,7 @@ import {
   projects,
   users,
 } from '../data';
-import Project from './project';
+import Project from '../schemas/project';
 
 @Resolver(() => Project)
 export default class ProjectResolver {

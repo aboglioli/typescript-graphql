@@ -6,7 +6,7 @@ import {
   users,
   Project as ProjectData,
 } from '../data';
-import User from './user';
+import User from '../schemas/user';
 
 @Resolver(() => User)
 export default class UserResolver {

@@ -1,19 +1,8 @@
-import { GraphQLServer } from 'graphql-yoga';
-import * as path from 'path';
-import 'reflect-metadata';
-import { buildSchema } from 'type-graphql';
+import startServer from './server';
 
 async function bootstrap() {
-  const schema = await buildSchema({
-    emitSchemaFile: path.resolve(__dirname, '../dist/schema.gql'),
-    resolvers: [__dirname + '/modules/**/*.resolver.js'],
-  });
-
-  const server = new GraphQLServer({
-    schema,
-  });
-
-  server.start(() => console.log('Server running'));
+  const app = await startServer();
+  console.log('[SERVER] Running on', app.address());
 }
 
 bootstrap();
