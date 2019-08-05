@@ -5,18 +5,18 @@ import startServer from '../src/server';
 export default class Server {
   private app: HttpServer;
 
-  async start() {
+  public async start() {
     this.app = await startServer();
     return this.app;
   }
 
-  stop() {
+  public stop() {
     if (this.app) {
       this.app.close();
     }
   }
 
-  get host(): string {
+  public get host(): string {
     const { port } = this.app.address() as { port: number };
     return `http://localhost:${port}`;
   }

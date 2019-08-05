@@ -10,8 +10,8 @@
     "build": "tsc",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
-    "test": "cross-env NODE_ENV=test mocha -r ts-node/register 'tests/**/*.test.ts'",
-    "lint": "eslint --fix 'src/**/*.ts'"
+    "test": "cross-env NODE_ENV=test mocha -r ts-node/register 'src/**/*.test.ts' 'tests/**/*.test.ts'",
+    "lint": "eslint --fix 'src/**/*.ts' 'tests/**/*.ts'"
   },
   "dependencies": {
     "cors": "^2.8.5",

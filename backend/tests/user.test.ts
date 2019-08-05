@@ -13,15 +13,16 @@ describe('Basic', () => {
 
   after(() => server.stop());
 
-  it ('retrieve users', async () => {
+  it('retrieve users', async () => {
     const { users } = await request(
       server.host,
       `{
         users {
           id
         }
-      }`);
+      }`,
+    );
 
-    expect(users).to.deep.equal([{id:'user1'},{id:'user2'}]);
+    expect(users).to.deep.equal([{ id: 'user1' }, { id: 'user2' }]);
   });
 });
