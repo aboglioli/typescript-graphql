@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "allowUnreachableCode": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["es2017", "esnext.asynciterable"],
     "module": "commonjs",
-    "lib": ["es2016", "esnext.asynciterable"],
     "moduleResolution": "node",
     "outDir": "./dist",
+    "sourceMap": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "sourceMap": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "target": "es2017"
   },
   "include": ["./src/**/*"]
 }
