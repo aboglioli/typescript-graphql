@@ -6,6 +6,13 @@
   "repository": "https://github.com/aboglioli/typescript-graphql",
   "author": "Alan Boglioli <alan.boglioli@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "dev": "tsc -w & nodemon dist/index.js",
+    "lint": "eslint --fix 'src/**/*.ts'",
+    "clean": "rm -r dist"
+  },
   "dependencies": {
     "graphql-yoga": "^1.18.1",
     "type-graphql": "^0.17.4"
@@ -13,6 +20,13 @@
   "devDependencies": {
     "@types/node": "^12.6.9",
     "@types/ws": "^6.0.1",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "nodemon": "^1.19.1",
+    "prettier": "^1.18.2",
     "reflect-metadata": "^0.1.13",
     "typescript": "^3.5.3"
   }
