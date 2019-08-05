@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "Typescript GraphQL backend",
+  "main": "dist/index.js",
+  "repository": "https://github.com/aboglioli/typescript-graphql",
+  "author": "Alan Boglioli <alan.boglioli@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.18.1",
+    "type-graphql": "^0.17.4"
+  },
+  "devDependencies": {
+    "@types/node": "^12.6.9",
+    "@types/ws": "^6.0.1",
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.5.3"
+  }
+}
