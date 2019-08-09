@@ -24,6 +24,4 @@ export default class UserResolver {
   projects(@Root() user: UserModel): ProjectModel[] {
     return projects.filter(p => p.userId === user.id);
   }
-
-  @Mutation(() => )
 }

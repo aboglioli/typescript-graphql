@@ -1,7 +1,8 @@
 import {
   Arg,
+  Ctx,
   FieldResolver,
-  InputType,
+  Mutation,
   Query,
   Resolver,
   Root,
@@ -10,26 +11,41 @@ import {
 import { Auth as AuthModel, User as UserModel, users } from '../data';
 import Auth from '../schemas/auth';
 import User from '../schemas/user';
-
-@InputType()
-class LoginInput {
-  @Field()
-  username: string;
-
-  @Field()
-  password: string;
-}
+import { generateAuthToken } from '../utils';
 
 @Resolver(() => Auth)
 export default class AuthResolver {
   @Query(() => User)
-  profile(): UserModel {}
+  profile(@Ctx('userId') userId: string): UserModel | undefined {
+    if (!userId) {
+      throw new Error('Not logged in');
+    }
 
-  @Mutation(() => Auth)
-  login(): AuthModel {
-    return users;
+    return users.find(u => u.id === userId);
   }
 
   @Mutation(() => Auth)
-  signup(): AuthModel {}
+  login(
+    @Arg('username') username: string,
+    @Arg('password') password: string,
+  ): AuthModel {
+    const user = users.find(u => u.username === username);
+    if (!user) {
+      throw new Error('Invalid credentials');
+    }
+
+    const correct = password === user.password;
+    if (!correct) {
+      throw new Error('Invalid credentials');
+    }
+
+    const token = generateAuthToken(user.id);
+
+    return { token, user };
+  }
+
+  @FieldResolver()
+  user(@Root() auth: AuthModel) {
+    return users.find(u => u.id === auth.user.id);
+  }
 }

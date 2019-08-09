@@ -5,6 +5,7 @@ import { buildSchema } from 'type-graphql';
 import * as cors from 'cors';
 
 import config from './config';
+import context from './context';
 import resolvers from './resolvers';
 
 export default async function start() {
@@ -15,6 +16,7 @@ export default async function start() {
 
   const server = new GraphQLServer({
     schema,
+    context,
   });
 
   server.express.use(cors());
