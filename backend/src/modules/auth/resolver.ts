@@ -8,10 +8,10 @@ import {
   Root,
 } from 'type-graphql';
 
-import { Auth as AuthModel, User as UserModel, users } from '../data';
-import Auth from '../schemas/auth';
-import User from '../schemas/user';
-import { generateAuthToken } from '../utils';
+import { Auth as AuthModel, User as UserModel, users } from '../../data';
+import Auth from '../auth/schema';
+import User from '../user/schema';
+import { generateAuthToken } from '../../utils';
 
 @Resolver(() => Auth)
 export default class AuthResolver {

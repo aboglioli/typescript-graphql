@@ -6,7 +6,7 @@ import * as cors from 'cors';
 
 import config from './config';
 import context from './context';
-import resolvers from './resolvers';
+import resolvers from './modules';
 
 export default async function start() {
   const schema = await buildSchema({

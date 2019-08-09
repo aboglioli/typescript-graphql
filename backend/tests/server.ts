@@ -25,23 +25,25 @@ export default class Server {
     }
   }
 
-  cleanClient() {
-    this.client = new GraphQLClient(this.host);
-  }
+  createClient(username?: string, password?: string) {
+    if (username && password) {
+      const user = loginUser(username, password);
+      if (!user) {
+        throw new Error('User does not exist');
+      }
 
-  loginClient(username: string, password: string) {
-    const user = loginUser(username, password);
-    if (!user) {
-      throw new Error('User does not exist');
+      const token = generateAuthToken(user.id);
+
+      this.client = new GraphQLClient(this.host, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return;
     }
 
-    const token = generateAuthToken(user.id);
-
-    this.client = new GraphQLClient(this.host, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    this.client = new GraphQLClient(this.host);
   }
 
   get host(): string {

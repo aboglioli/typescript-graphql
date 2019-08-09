@@ -1,6 +1,6 @@
 import { Field, ID, Int, ObjectType } from 'type-graphql';
 
-import User from './user';
+import User from '../user/schema';
 
 @ObjectType()
 export default class Project {
