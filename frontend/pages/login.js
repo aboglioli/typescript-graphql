@@ -13,7 +13,6 @@ const LOGIN_MUTATION = gql`
       user {
         id
         username
-        email
         name
       }
     }
@@ -26,8 +25,10 @@ const Login = () => {
 
   const [mutation, { loading }] = useMutation(LOGIN_MUTATION, {
     variables: data,
-    onError: () => {
-      setError('Invalid username or password');
+    onError: ({ graphQLErrors }) => {
+      if (graphQLErrors) {
+        setError(graphQLErrors.map(err => err.message).join(', '));
+      }
     },
     onCompleted: data => {
       if (data && data.login) {
@@ -64,9 +65,6 @@ const Login = () => {
         />
       </div>
       <div>
-        <Link href="/signup">
-          <a>Sign up</a>
-        </Link>
         <button disabled={loading} onClick={mutation}>
           Log in
         </button>
