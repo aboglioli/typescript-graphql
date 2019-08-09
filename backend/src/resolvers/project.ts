@@ -8,9 +8,9 @@ import {
 } from 'type-graphql';
 
 import {
-  Project as ProjectData,
-  User as UserData,
+  Project as ProjectModel,
   projects,
+  User as UserModel,
   users,
 } from '../data';
 import Project from '../schemas/project';
@@ -18,17 +18,17 @@ import Project from '../schemas/project';
 @Resolver(() => Project)
 export default class ProjectResolver {
   @Query(() => [Project])
-  public projects(): ProjectData[] {
+  projects(): ProjectModel[] {
     return projects;
   }
 
   @Query(() => Project, { nullable: true })
-  public projectById(@Arg('id') id: string): ProjectData | undefined {
+  projectById(@Arg('id') id: string): ProjectModel | undefined {
     return projects.find(p => p.id === id);
   }
 
   @Mutation(() => Project)
-  public markAsCompleted(@Arg('id') id: string): ProjectData {
+  markAsCompleted(@Arg('id') id: string): ProjectModel {
     const project = projects.find(p => p.id === id);
 
     if (!project) {
@@ -45,7 +45,7 @@ export default class ProjectResolver {
   }
 
   @FieldResolver()
-  public user(@Root() project: ProjectData): UserData | undefined {
+  user(@Root() project: ProjectModel): UserModel | undefined {
     return users.find(u => u.id === project.userId);
   }
 }

@@ -43,6 +43,6 @@ module.exports = {
     'require-await': 2,
     'comma-dangle': ['error', 'always-multiline'],
     'semi': ['error', 'always'],
-    'no-console': 0
+    'no-console': 0,
   },
 };

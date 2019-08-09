@@ -1,27 +1,29 @@
 import { Arg, FieldResolver, Query, Resolver, Root } from 'type-graphql';
 
 import {
-  User as UserData,
+  Project as ProjectModel,
   projects,
+  User as UserModel,
   users,
-  Project as ProjectData,
 } from '../data';
 import User from '../schemas/user';
 
 @Resolver(() => User)
 export default class UserResolver {
   @Query(() => [User])
-  public users(): UserData[] {
+  users(): UserModel[] {
     return users;
   }
 
   @Query(() => User, { nullable: true })
-  public user(@Arg('id') id: string): UserData | undefined {
+  userById(@Arg('id') id: string): UserModel | undefined {
     return users.find(u => u.id === id);
   }
 
   @FieldResolver()
-  public projects(@Root() user: UserData): ProjectData[] {
+  projects(@Root() user: UserModel): ProjectModel[] {
     return projects.filter(p => p.userId === user.id);
   }
+
+  @Mutation(() => )
 }

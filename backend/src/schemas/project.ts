@@ -5,17 +5,17 @@ import User from './user';
 @ObjectType()
 export default class Project {
   @Field(() => ID)
-  public id: string;
+  id: string;
 
   @Field()
-  public name: string;
+  name: string;
 
   @Field(() => Int)
-  public priority: number;
+  priority: number;
 
   @Field()
-  public completed: boolean;
+  completed: boolean;
 
   @Field(() => User)
-  public user: User;
+  user: User;
 }

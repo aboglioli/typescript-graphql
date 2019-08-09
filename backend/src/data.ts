@@ -10,11 +10,17 @@ export interface User {
   id: string;
   username: string;
   name: string;
+  password: string;
+}
+
+export interface Auth {
+  token: string;
+  user: User;
 }
 
 export const users: User[] = [
-  { id: 'user1', username: 'admin', name: 'Administrator' },
-  { id: 'user2', username: 'user', name: 'User' },
+  { id: 'user1', username: 'admin', name: 'Administrator', password: 'admin' },
+  { id: 'user2', username: 'user', name: 'User', password: 'user' },
 ];
 
 export const projects: Project[] = [

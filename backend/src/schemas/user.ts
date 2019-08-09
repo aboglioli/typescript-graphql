@@ -5,14 +5,14 @@ import Project from './project';
 @ObjectType()
 export default class User {
   @Field(() => ID)
-  public id: string;
+  id: string;
 
   @Field()
-  public username: string;
+  username: string;
 
   @Field()
-  public name: string;
+  name: string;
 
   @Field(() => [Project])
-  public projects: Project[];
+  projects: Project[];
 }

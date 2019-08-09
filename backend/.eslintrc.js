@@ -16,6 +16,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 2,
     '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/explicit-member-accessibility': 0,
     'no-console': 1,
     'eqeqeq': 2,
     'no-return-await': 2,
