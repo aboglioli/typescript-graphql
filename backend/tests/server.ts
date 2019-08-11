@@ -3,7 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 
 import startServer from '../src/server';
 import { users } from '../src/data';
-import { generateAuthToken } from '../src/utils';
+import { generateAuthToken } from '../src/utils/user';
 
 function loginUser(username: string, password: string) {
   return users.find(u => u.username === username && u.password === password);

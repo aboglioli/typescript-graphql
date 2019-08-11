@@ -1,6 +1,6 @@
 import { verify, sign } from 'jsonwebtoken';
 
-import config from './config';
+import config from '../config';
 
 export function getUserId(token: string): string {
   const { id } = verify(token, config.jwtSecret) as { id: string };

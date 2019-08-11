@@ -11,7 +11,7 @@ import {
 import { Auth as AuthModel, User as UserModel, users } from '../../data';
 import Auth from '../auth/schema';
 import User from '../user/schema';
-import { generateAuthToken } from '../../utils';
+import { generateAuthToken } from '../../utils/user';
 
 @Resolver(() => Auth)
 export default class AuthResolver {

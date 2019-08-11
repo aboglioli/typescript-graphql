@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { getUserId } from './utils';
+import { getUserId } from './utils/user';
 
 export interface Context {
   userId?: string;
