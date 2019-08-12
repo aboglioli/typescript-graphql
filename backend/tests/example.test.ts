@@ -21,7 +21,7 @@ describe('Basic', () => {
         }
       `);
     } catch (err) {
-      expect(err.response.errors[0].message).toBe('Not logged in');
+      expect(err.response.errors[0].message).toBe('UNAUTHORIZED');
     }
   });
 
@@ -40,7 +40,8 @@ describe('Basic', () => {
 
   it('log in user', async () => {
     server.createClient();
-    const { login } = await server.client.request(`
+    const { login } = await server.client.request(
+      `
       mutation login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
           token

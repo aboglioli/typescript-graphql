@@ -1,12 +1,12 @@
 import { Request } from 'express';
 import { getUserId } from './utils/user';
 
-export interface Context {
+export interface IContext {
   userId?: string;
 }
 
-export default function context({ request }: { request: Request }): Context {
-  let ctx: Context = {};
+export default function context({ request }: { request: Request }): IContext {
+  let ctx: IContext = {};
 
   // Get Authorization token
   const authorization = request && request.get('Authorization');

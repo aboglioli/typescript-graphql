@@ -1,4 +1,4 @@
-export interface Project {
+export interface IProject {
   id: string;
   name: string;
   priority: number;
@@ -6,24 +6,24 @@ export interface Project {
   userId: string;
 }
 
-export interface User {
+export interface IUser {
   id: string;
   username: string;
   name: string;
   password: string;
 }
 
-export interface Auth {
+export interface IAuth {
   token: string;
-  user: User;
+  user: IUser;
 }
 
-export const users: User[] = [
+export const users: IUser[] = [
   { id: 'user1', username: 'admin', name: 'Administrator', password: 'admin' },
-  { id: 'user2', username: 'user', name: 'User', password: 'user' },
+  { id: 'user2', username: 'user', name: 'IUser', password: 'user' },
 ];
 
-export const projects: Project[] = [
+export const projects: IProject[] = [
   {
     id: 'project1',
     name: 'First project',

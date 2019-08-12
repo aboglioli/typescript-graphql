@@ -1,42 +1,60 @@
 import {
   Arg,
   Ctx,
+  Field,
   FieldResolver,
+  InputType,
   Mutation,
   Query,
   Resolver,
   Root,
 } from 'type-graphql';
+import { genSalt, hash } from 'bcryptjs';
 
-import { Auth as AuthModel, User as UserModel, users } from '../../data';
+import { IUser, UserModel } from '../../models';
 import Auth from '../auth/schema';
 import User from '../user/schema';
 import { generateAuthToken } from '../../utils/user';
 
+interface IAuth {
+  token: string;
+  user: IUser;
+}
+
+@InputType()
+class SignupInput {
+  @Field()
+  username: string;
+
+  @Field()
+  password: string;
+
+  @Field()
+  name: string;
+
+  @Field()
+  email: string;
+}
+
 @Resolver(() => Auth)
 export default class AuthResolver {
   @Query(() => User)
-  profile(@Ctx('userId') userId: string): UserModel | undefined {
+  profile(@Ctx('userId') userId: string) {
     if (!userId) {
-      throw new Error('Not logged in');
+      throw new Error('UNAUTHORIZED');
     }
 
-    return users.find(u => u.id === userId);
+    return UserModel.findById(userId);
   }
 
   @Mutation(() => Auth)
-  login(
+  async login(
     @Arg('username') username: string,
     @Arg('password') password: string,
-  ): AuthModel {
-    const user = users.find(u => u.username === username);
+  ) {
+    const user = await UserModel.findOne({ username, password });
     if (!user) {
-      throw new Error('Invalid credentials');
-    }
-
-    const correct = password === user.password;
-    if (!correct) {
-      throw new Error('Invalid credentials');
+      throw new Error('INVALID_CREDENTIALS');
     }
 
     const token = generateAuthToken(user.id);
@@ -44,8 +62,23 @@ export default class AuthResolver {
     return { token, user };
   }
 
+  @Mutation(() => User)
+  async signup(@Arg('data') data: SignupInput) {
+    const userCount = await UserModel.count({
+      $or: [{ username: data.username }, { email: data.email }],
+    });
+    if (userCount > 0) {
+      throw new Error('EXISTING_USER');
+    }
+
+    const salt = await genSalt(10);
+    const password = await hash(data.password, salt);
+
+    return UserModel.create({ ...data, password });
+  }
+
   @FieldResolver()
-  user(@Root() auth: AuthModel) {
-    return users.find(u => u.id === auth.user.id);
+  user(@Root() auth: IAuth) {
+    return UserModel.findById(auth.user.id);
   }
 }

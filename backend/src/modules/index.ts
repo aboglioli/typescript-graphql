@@ -1,5 +1,4 @@
-import * as glob from 'glob';
+import Auth from './auth/resolver';
+import User from './user/resolver';
 
-const files = glob.sync(__dirname + '/**/*resolver.ts');
-
-export default files.map(file => require(file));
+export default [Auth, User];

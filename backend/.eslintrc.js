@@ -17,6 +17,7 @@ module.exports = {
     'prettier/prettier': 2,
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-member-accessibility': 0,
+    '@typescript-eslint/interface-name-prefix': [2, 'always'],
     'no-console': 0,
     'eqeqeq': 2,
     'no-return-await': 2,

@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 
-import Project from '../project/schema';
+import { Timestamp } from '../common';
 
 @ObjectType()
-export default class User {
+export default class User extends Timestamp {
   @Field(() => ID)
   id: string;
 
@@ -13,6 +13,6 @@ export default class User {
   @Field()
   name: string;
 
-  @Field(() => [Project])
-  projects: Project[];
+  @Field()
+  email: string;
 }
