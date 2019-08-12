@@ -1,3 +1,4 @@
+import './mock';
 import { Server as HttpServer } from 'http';
 import { GraphQLClient } from 'graphql-request';
 import { Mongoose } from 'mongoose';
@@ -35,8 +36,6 @@ export default class Server {
     for (let key in this.mongo.models) {
       await this.mongo.models[key].deleteMany({});
     }
-
-    await Redis.flushall();
   }
 
   async createClient(username?: string) {
