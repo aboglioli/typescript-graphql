@@ -9,7 +9,7 @@ import {
   Resolver,
   Root,
 } from 'type-graphql';
-import { genSalt, hash } from 'bcryptjs';
+import { genSalt, hash, compare } from 'bcryptjs';
 
 import { IUser, UserModel } from '../../models';
 import Auth from '../auth/schema';
@@ -52,8 +52,13 @@ export default class AuthResolver {
     @Arg('username') username: string,
     @Arg('password') password: string,
   ) {
-    const user = await UserModel.findOne({ username, password });
+    const user = await UserModel.findOne({ username });
     if (!user) {
+      throw new Error('INVALID_CREDENTIALS');
+    }
+
+    const correctPassword = await compare(password, user.password);
+    if (!correctPassword) {
       throw new Error('INVALID_CREDENTIALS');
     }
 
@@ -64,10 +69,10 @@ export default class AuthResolver {
 
   @Mutation(() => User)
   async signup(@Arg('data') data: SignupInput) {
-    const userCount = await UserModel.count({
+    const existingUser = await UserModel.findOne({
       $or: [{ username: data.username }, { email: data.email }],
     });
-    if (userCount > 0) {
+    if (existingUser) {
       throw new Error('EXISTING_USER');
     }
 

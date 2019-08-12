@@ -1,11 +1,38 @@
 import Server from './server';
 
+const SIGNUP_MUTATION = `
+  mutation signup($data: SignupInput!) {
+    signup(data: $data) {
+      id
+      username
+      name
+      email
+      createdAt
+    }
+  }
+`;
+
+const LOGIN_MUTATION = `
+mutation login($username: String!, $password: String!) {
+  login(username: $username, password: $password) {
+    token
+    user {
+      id
+      username
+      name
+      createdAt
+    }
+  }
+}
+`;
+
 describe('Basic', () => {
   let server: Server;
 
   beforeAll(async () => {
     server = new Server();
     await server.start();
+    await server.connectdb('auth');
   });
 
   afterAll(() => server.stop());
@@ -25,65 +52,35 @@ describe('Basic', () => {
     }
   });
 
-  it('profile', async () => {
-    server.createClient('admin', 'admin');
-    const { profile } = await server.client.request(`
-      {
-        profile {
-          id
-          username
-        }
-      }
-    `);
-    expect(profile).toEqual({ id: 'user1', username: 'admin' });
+  it('sign up user', async () => {
+    server.createClient();
+    const { signup } = await server.client.request(SIGNUP_MUTATION, {
+      data: {
+        username: 'user',
+        password: '123456',
+        name: 'User',
+        email: 'user@user.com',
+      },
+    });
+
+    expect(signup).toHaveProperty('id');
+    expect(signup).toHaveProperty('username');
+    expect(signup.username).toBe('user');
+    expect(signup.name).toBe('User');
+    expect(signup.email).toBe('user@user.com');
   });
 
   it('log in user', async () => {
     server.createClient();
-    const { login } = await server.client.request(
-      `
-      mutation login($username: String!, $password: String!) {
-        login(username: $username, password: $password) {
-          token
-          user {
-            id
-            username
-          }
-        }
-      }
-      `,
-      {
-        username: 'user',
-        password: 'user',
-      },
-    );
+    const { login } = await server.client.request(LOGIN_MUTATION, {
+      username: 'user',
+      password: '123456',
+    });
 
     expect(login).toHaveProperty('token');
     expect(login).toHaveProperty('user');
     expect(typeof login.token).toBe('string');
-    expect(login.user).toEqual({ id: 'user2', username: 'user' });
-  });
-
-  it('retrieves projects from logged in user', async () => {
-    server.createClient('user', 'user');
-    const { profile } = await server.client.request(`
-      {
-        profile {
-          id
-          username
-          projects {
-            id
-            name
-            priority
-            completed
-          }
-        }
-      }
-    `);
-
-    expect(profile.username).toBe('user');
-    expect(profile.projects).toHaveLength(2);
-    expect(profile.projects[0].id).toBe('project2');
-    expect(profile.projects[1].id).toBe('project5');
+    expect(login.user).toBeDefined();
+    expect(login.user.name).toBe('User');
   });
 });

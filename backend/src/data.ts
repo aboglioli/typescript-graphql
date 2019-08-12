@@ -13,11 +13,6 @@ export interface IUser {
   password: string;
 }
 
-export interface IAuth {
-  token: string;
-  user: IUser;
-}
-
 export const users: IUser[] = [
   { id: 'user1', username: 'admin', name: 'Administrator', password: 'admin' },
   { id: 'user2', username: 'user', name: 'IUser', password: 'user' },
