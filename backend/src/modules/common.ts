@@ -1,7 +1,10 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType({ isAbstract: true })
-export class Timestamp {
+export class Node {
+  @Field(() => ID)
+  id: string;
+
   @Field()
   createdAt: Date;
 

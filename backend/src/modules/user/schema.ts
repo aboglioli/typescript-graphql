@@ -1,12 +1,9 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 
-import { Timestamp } from '../common';
+import { Node } from '../common';
 
 @ObjectType()
-export default class User extends Timestamp {
-  @Field(() => ID)
-  id: string;
-
+export default class User extends Node {
   @Field()
   username: string;
 
