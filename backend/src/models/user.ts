@@ -1,4 +1,5 @@
 import { Document, model, Schema } from 'mongoose';
+import { genSalt, hash, compare } from 'bcryptjs';
 
 const UserSchema = new Schema(
   {
@@ -20,6 +21,18 @@ export interface IUser extends Document {
   email: string;
   createdAt: Date;
   updatedAt: Date;
+  verifyPassword(password: string): boolean;
 }
+
+UserSchema.pre<IUser>('save', async function() {
+  if (!this.isModified('password')) return;
+
+  const salt = await genSalt(10);
+  this.password = await hash(this.password, salt);
+});
+
+UserSchema.methods.verifyPassword = function(password: string) {
+  return compare(password, this.password);
+};
 
 export const UserModel = model<IUser>('User', UserSchema);

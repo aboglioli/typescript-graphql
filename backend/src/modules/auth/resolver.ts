@@ -9,7 +9,6 @@ import {
   Resolver,
   Root,
 } from 'type-graphql';
-import { genSalt, hash, compare } from 'bcryptjs';
 
 import { IUser, UserModel } from '../../models';
 import Auth from '../auth/schema';
@@ -57,8 +56,8 @@ export default class AuthResolver {
       throw new Error('INVALID_CREDENTIALS');
     }
 
-    const correctPassword = await compare(password, user.password);
-    if (!correctPassword) {
+    const validPassword = await user.verifyPassword(password);
+    if (!validPassword) {
       throw new Error('INVALID_CREDENTIALS');
     }
 
@@ -76,10 +75,7 @@ export default class AuthResolver {
       throw new Error('EXISTING_USER');
     }
 
-    const salt = await genSalt(10);
-    const password = await hash(data.password, salt);
-
-    return UserModel.create({ ...data, password });
+    return UserModel.create(data);
   }
 
   @FieldResolver()

@@ -83,4 +83,16 @@ describe('Basic', () => {
     expect(login.user).toBeDefined();
     expect(login.user.name).toBe('User');
   });
+
+  it('log in user with invalid credentials', async () => {
+    server.createClient();
+    try {
+      await server.client.request(LOGIN_MUTATION, {
+        username: 'user',
+        password: '12345',
+      });
+    } catch (err) {
+      expect(err.response.errors[0].message).toBe('INVALID_CREDENTIALS');
+    }
+  });
 });
