@@ -68,6 +68,7 @@ describe('Basic', () => {
     expect(signup.username).toBe('user');
     expect(signup.name).toBe('User');
     expect(signup.email).toBe('user@user.com');
+    expect(typeof signup.createdAt).toBe('string');
   });
 
   it('log in user', async () => {

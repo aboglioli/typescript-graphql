@@ -1,6 +1,8 @@
 import { Document, model, Schema } from 'mongoose';
 import { genSalt, hash, compare } from 'bcryptjs';
 
+import { ITimestamps } from './common';
+
 const UserSchema = new Schema(
   {
     username: { type: String, required: true, unique: true },
@@ -13,14 +15,12 @@ const UserSchema = new Schema(
   },
 );
 
-export interface IUser extends Document {
+export interface IUser extends Document, ITimestamps {
   id: string;
   username: string;
   password: string;
   name: string;
   email: string;
-  createdAt: Date;
-  updatedAt: Date;
   verifyPassword(password: string): boolean;
 }
 
