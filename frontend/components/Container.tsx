@@ -4,7 +4,7 @@ import Head from 'next/head';
 import config from '../lib/config';
 
 interface ContainerProps {
-  title: string;
+  title?: string;
   children: ReactNode;
 }
 

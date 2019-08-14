@@ -29,4 +29,9 @@ module.exports = {
     'react/jsx-wrap-multilines': 2,
     'react/no-string-refs': 0,
   },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };
