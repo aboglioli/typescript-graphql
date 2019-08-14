@@ -1,7 +1,7 @@
 import { config as configDotenv } from 'dotenv';
 configDotenv();
 
-interface IConfig {
+interface Config {
   env: string;
   port: number;
 
@@ -19,7 +19,7 @@ interface IConfig {
 // Base config
 const env = process.env.NODE_ENV || 'development';
 
-const development: IConfig = {
+const development: Config = {
   env,
   port: Number(process.env.PORT) || 4000,
   jwtSecret: process.env.JWT_SECRET || 'my-secret',
@@ -34,7 +34,7 @@ const development: IConfig = {
   redisPort: Number(process.env.REDIS_PORT) || 6379,
 };
 
-const config: { [key: string]: IConfig } = {
+const config: { [key: string]: Config } = {
   development,
   test: {
     ...development,
@@ -44,8 +44,5 @@ const config: { [key: string]: IConfig } = {
     ...development,
   },
 };
-
-config.testing = { ...config.development, ...config.testing };
-config.production = { ...config.development, ...config.production };
 
 export default config[env];

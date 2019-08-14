@@ -10,14 +10,14 @@ import {
   Root,
 } from 'type-graphql';
 
-import { IUser, UserModel } from '../../models';
-import Auth from '../auth/schema';
-import User from '../user/schema';
+import { User, UserModel } from '../../models';
+import AuthType from '../auth/schema';
+import UserType from '../user/schema';
 import { generateAuthToken } from '../../utils/user';
 
-interface IAuth {
+interface Auth {
   token: string;
-  user: IUser;
+  user: User;
 }
 
 @InputType()
@@ -35,9 +35,9 @@ class SignupInput {
   email: string;
 }
 
-@Resolver(() => Auth)
+@Resolver(() => AuthType)
 export default class AuthResolver {
-  @Query(() => User)
+  @Query(() => UserType)
   profile(@Ctx('userId') userId: string) {
     if (!userId) {
       throw new Error('UNAUTHORIZED');
@@ -46,7 +46,7 @@ export default class AuthResolver {
     return UserModel.findById(userId);
   }
 
-  @Mutation(() => Auth)
+  @Mutation(() => AuthType)
   async login(
     @Arg('username') username: string,
     @Arg('password') password: string,
@@ -66,7 +66,7 @@ export default class AuthResolver {
     return { token, user };
   }
 
-  @Mutation(() => User)
+  @Mutation(() => UserType)
   async signup(@Arg('data') data: SignupInput) {
     const existingUser = await UserModel.findOne({
       $or: [{ username: data.username }, { email: data.email }],
@@ -79,7 +79,7 @@ export default class AuthResolver {
   }
 
   @FieldResolver()
-  user(@Root() auth: IAuth) {
+  user(@Root() auth: Auth) {
     return UserModel.findById(auth.user.id);
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ApolloError } from 'apollo-client';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
@@ -24,7 +25,7 @@ const Login = () => {
 
   const [mutation, { loading }] = useMutation(LOGIN_MUTATION, {
     variables: data,
-    onError: ({ graphQLErrors }) => {
+    onError: ({ graphQLErrors }: ApolloError) => {
       if (graphQLErrors) {
         setError(graphQLErrors.map(err => err.message).join(', '));
       }
@@ -64,7 +65,7 @@ const Login = () => {
         />
       </div>
       <div>
-        <button disabled={loading} onClick={mutation}>
+        <button disabled={loading} onClick={() => mutation()}>
           Log in
         </button>
       </div>

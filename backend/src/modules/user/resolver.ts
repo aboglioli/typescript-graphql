@@ -1,6 +1,6 @@
 import { Resolver } from 'type-graphql';
 
-import User from '../user/schema';
+import UserType from '../user/schema';
 
-@Resolver(() => User)
+@Resolver(() => UserType)
 export default class UserResolver {}

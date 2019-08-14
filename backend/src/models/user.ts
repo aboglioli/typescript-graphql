@@ -1,7 +1,7 @@
 import { Document, model, Schema } from 'mongoose';
 import { genSalt, hash, compare } from 'bcryptjs';
 
-import { ITimestamps } from './common';
+import { Timestamps } from './common';
 
 const UserSchema = new Schema(
   {
@@ -15,7 +15,7 @@ const UserSchema = new Schema(
   },
 );
 
-export interface IUser extends Document, ITimestamps {
+export interface User extends Document, Timestamps {
   id: string;
   username: string;
   password: string;
@@ -24,7 +24,7 @@ export interface IUser extends Document, ITimestamps {
   verifyPassword(password: string): boolean;
 }
 
-UserSchema.pre<IUser>('save', async function() {
+UserSchema.pre<User>('save', async function() {
   if (!this.isModified('password')) return;
 
   const salt = await genSalt(10);
@@ -35,4 +35,4 @@ UserSchema.methods.verifyPassword = function(password: string) {
   return compare(password, this.password);
 };
 
-export const UserModel = model<IUser>('User', UserSchema);
+export const UserModel = model<User>('User', UserSchema);

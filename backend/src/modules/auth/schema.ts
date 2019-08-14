@@ -1,12 +1,12 @@
 import { Field, ObjectType } from 'type-graphql';
 
-import User from '../user/schema';
+import UserType from '../user/schema';
 
 @ObjectType()
-export default class Auth {
+export default class AuthType {
   @Field()
   token: string;
 
-  @Field(() => User)
-  user: User;
+  @Field(() => UserType)
+  user: UserType;
 }

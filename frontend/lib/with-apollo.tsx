@@ -8,16 +8,19 @@ import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 import initApollo from './apollo';
 import { redirect } from './auth';
 
+interface WithApolloProps {
+  apolloState: NormalizedCacheObject;
+}
+
 const withApollo = App => {
-  return class WithApollo extends Component {
+  return class WithApollo extends Component<WithApolloProps> {
     static displayName = `withApollo(${App.displayName || 'All'})`;
 
     static async getInitialProps(appContext: AppContext) {
       const { Component, router, ctx } = appContext;
-
       let initialProps = {};
       if (App.getInitialProps) {
-        initialProps = await App.getInitialProps(ctx);
+        initialProps = await App.getInitialProps(appContext);
       }
 
       const apollo = initApollo({}, ctx);

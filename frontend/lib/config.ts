@@ -7,16 +7,21 @@ interface Config {
   title: string;
 }
 
-const config: { [key: string]: Config } = {
-  development: {
-    env,
-    isBrowser: typeof window !== 'undefined',
-    backendUrl: 'http://localhost:4000',
-    title: 'fullstack-graphql',
-  },
+const development: Config = {
+  env,
+  isBrowser: typeof window !== 'undefined',
+  backendUrl: 'http://localhost:4000',
+  title: 'fullstack-graphql',
 };
 
-config.test = { ...config.development, ...config.test };
-config.production = { ...config.development, ...config.production };
+const config: { [key: string]: Config } = {
+  development,
+  test: {
+    ...development,
+  },
+  production: {
+    ...development,
+  },
+};
 
 export default config[env];
