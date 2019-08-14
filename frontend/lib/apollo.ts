@@ -6,10 +6,9 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { NextPageContext } from 'next';
 import fetch from 'isomorphic-unfetch';
-import nextCookies from 'next-cookies';
 
 import config from './config';
-import { redirect } from './auth';
+import { getToken, redirect } from './auth';
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 const isBrowser = typeof window !== 'undefined';
@@ -20,16 +19,12 @@ const createClient = (
 ) => {
   // Links
   const authLink = setContext((_, { headers }) => {
-    const cookies = isBrowser
-      ? nextCookies({})
-      : ctx && ctx.req
-      ? nextCookies(ctx)
-      : {};
+    const token = getToken(ctx);
 
     return {
       headers: {
         ...headers,
-        authorization: cookies.token ? `Bearer ${cookies.token}` : '',
+        authorization: token ? `Bearer ${token}` : '',
       },
     };
   });
@@ -45,10 +40,7 @@ const createClient = (
         err => err.message === 'NOT_LOGGED_IN',
       );
       if (notLoggedIn) {
-        redirect(
-          '/unauthorized',
-          ctx && ctx.res && !isBrowser ? ctx.res : null,
-        );
+        redirect('/unauthorized', ctx);
       }
     }
   });

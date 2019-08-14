@@ -1,6 +1,9 @@
+import { NextPageContext } from 'next';
 import Router from 'next/router';
 import nextCookies from 'next-cookies';
 import cookie from 'js-cookie';
+
+import config from './config';
 
 export function login(token: string) {
   cookie.set('token', token, { expires: 1 });
@@ -12,11 +15,10 @@ export function logout() {
   Router.push('/login');
 }
 
-export function redirect(res:)
-
-export const redirect = (res, target) => {
-  if (res) {
+export function redirect(target: string, ctx?: NextPageContext) {
+  if (ctx && ctx.res) {
     // Server
+    const { res } = ctx;
     res.writeHead(302, { Location: target || '/unauthorized' });
     res.end();
     return;
@@ -24,9 +26,14 @@ export const redirect = (res, target) => {
 
   // Client
   Router.replace(target);
-};
+}
 
-export const getToken = ctx => {
-  const { token } = nextCookies(ctx);
-  return token;
-};
+export function getToken(ctx: NextPageContext) {
+  const cookies = config.isBrowser
+    ? nextCookies({})
+    : ctx && ctx.req
+    ? nextCookies(ctx)
+    : {};
+
+  return cookies.token;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NextPageContext } from 'next';
 
 import { getToken, redirect } from './auth';
 
@@ -7,11 +8,11 @@ const withAuth = WrappedComponent => {
     static displayName = `withAuth(${WrappedComponent.displayName ||
       'Component'})`;
 
-    static async getInitialProps(ctx) {
+    static async getInitialProps(ctx: NextPageContext) {
       const token = getToken(ctx);
 
       if (!token) {
-        redirect(ctx.res, '/unauthorized');
+        redirect('/unauthorized', ctx);
         return null;
       }
 

@@ -13,13 +13,7 @@ const withApollo = App => {
     static displayName = `withApollo(${App.displayName || 'All'})`;
 
     static async getInitialProps(appContext: AppContext) {
-      const {
-        Component,
-        router,
-        ctx,
-      } = appContext;
-
-      const { res } = ctx;
+      const { Component, router, ctx } = appContext;
 
       let initialProps = {};
       if (App.getInitialProps) {
@@ -28,7 +22,7 @@ const withApollo = App => {
 
       const apollo = initApollo({}, ctx);
 
-      if (res && res.finished) {
+      if (ctx && ctx.res && ctx.res.finished) {
         // In case of redirection
         return {};
       }
@@ -48,7 +42,7 @@ const withApollo = App => {
           );
         } catch (err) {
           console.error('getDataFromTree:', err);
-          return redirect(res, '/unauthorized');
+          return redirect('/unauthorized', ctx);
         }
 
         // getDataFromTree does not call componentWillUnmount
