@@ -12,7 +12,7 @@
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
-    "lint": "eslint --fix 'src/**/*.ts' 'tests/**/*.ts'"
+    "lint": "eslint --fix '**/*.ts'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -31,7 +31,7 @@
     "@types/jest": "^24.0.17",
     "@types/jsonwebtoken": "^8.3.3",
     "@types/mongoose": "^5.5.12",
-    "@types/node": "^12.6.9",
+    "@types/node": "^12.7.1",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",

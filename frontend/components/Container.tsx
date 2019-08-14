@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Head from 'next/head';
 
 import config from '../lib/config';
@@ -12,10 +11,5 @@ const Container = ({ title, children }) => (
     {children}
   </>
 );
-
-Container.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
 
 export default Container;

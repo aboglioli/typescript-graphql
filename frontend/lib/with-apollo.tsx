@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { AppContext } from 'next/app';
 import Head from 'next/head';
+import { ApolloClient } from 'apollo-client';
 import { getDataFromTree } from '@apollo/react-ssr';
+import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 import initApollo from './apollo';
 import { redirect } from './auth';
-import { AST_DWLoop } from 'terser';
 
 const withApollo = App => {
   return class WithApollo extends Component {
     static displayName = `withApollo(${App.displayName || 'All'})`;
 
-    static propTypes = {
-      apolloState: PropTypes.object.isRequired,
-    };
-
-    static async getInitialProps(ctx) {
+    static async getInitialProps(appContext: AppContext) {
       const {
         Component,
         router,
-        ctx: { res },
-      } = ctx;
+        ctx,
+      } = appContext;
+
+      const { res } = ctx;
+
       let initialProps = {};
       if (App.getInitialProps) {
         initialProps = await App.getInitialProps(ctx);
@@ -56,13 +56,15 @@ const withApollo = App => {
         Head.rewind();
       }
 
-      const apolloState = apollo.cache.extract();
+      const apolloState: NormalizedCacheObject = apollo.cache.extract();
 
       return {
         ...initialProps,
         apolloState,
       };
     }
+
+    private apolloClient: ApolloClient<NormalizedCacheObject>;
 
     constructor(props) {
       super(props);

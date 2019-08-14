@@ -1,23 +1,27 @@
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
+import { NextPageContext } from 'next';
 import fetch from 'isomorphic-unfetch';
 import nextCookies from 'next-cookies';
 
 import config from './config';
 import { redirect } from './auth';
 
-let apolloClient = null;
+let apolloClient: ApolloClient<NormalizedCacheObject>;
 const isBrowser = typeof window !== 'undefined';
 
-const createClient = (initialState, { ctx } = {}) => {
+const createClient = (
+  initialState: NormalizedCacheObject,
+  ctx?: NextPageContext,
+) => {
   // Links
   const authLink = setContext((_, { headers }) => {
-    const { token } = isBrowser
-      ? nextCookies()
+    const cookies = isBrowser
+      ? nextCookies({})
       : ctx && ctx.req
       ? nextCookies(ctx)
       : {};
@@ -25,7 +29,7 @@ const createClient = (initialState, { ctx } = {}) => {
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : '',
+        authorization: cookies.token ? `Bearer ${cookies.token}` : '',
       },
     };
   });
@@ -60,7 +64,10 @@ const createClient = (initialState, { ctx } = {}) => {
   return client;
 };
 
-export default function initApollo(initialState, ctx) {
+export default function initApollo(
+  initialState: NormalizedCacheObject,
+  ctx?: NextPageContext,
+) {
   // New client for every server-side request
   if (!isBrowser) {
     return createClient(initialState, ctx);
