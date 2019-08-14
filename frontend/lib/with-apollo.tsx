@@ -5,6 +5,7 @@ import { getDataFromTree } from '@apollo/react-ssr';
 
 import initApollo from './apollo';
 import { redirect } from './auth';
+import { AST_DWLoop } from 'terser';
 
 const withApollo = App => {
   return class WithApollo extends Component {

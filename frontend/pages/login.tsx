@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 

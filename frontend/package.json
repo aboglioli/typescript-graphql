@@ -30,8 +30,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint --fix lib pages components stories",
-    "storybook": "start-storybook"
+    "lint": "eslint --fix 'lib/**/*.ts' 'pages/**/*.tsx' 'components/**/*.tsx'"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,14 +48,14 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@storybook/react": "^5.1.9",
-    "babel-eslint": "^10.0.2",
-    "babel-loader": "^8.0.6",
-    "eslint": "^5.16.0",
+    "@types/react": "^16.9.1",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.2",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "typescript": "^3.5.3"
   }
 }

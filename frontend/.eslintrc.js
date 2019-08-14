@@ -1,48 +1,33 @@
 module.exports = {
-  parser: 'babel-eslint',
-  env: {
-    browser: true,
-    es6: true,
-  },
+  parser: '@typescript-eslint/parser',
   extends: [
-    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
     'plugin:react/recommended',
-    'prettier',
+    'plugin:prettier/recommended',
   ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-    process: 'readonly',
-    module: 'readonly',
-  },
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 2018,
-    sourceType: 'module',
-  },
   plugins: [
+    '@typescript-eslint',
     'react',
     'prettier',
   ],
+  parserOptions: {
+    ecmaVersion: 2018,
+    jsx: true,
+    sourceType: 'module',
+  },
   rules: {
+    'prettier/prettier': 2,
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/explicit-member-accessibility': 0,
+    '@typescript-eslint/interface-name-prefix': [2, 'always'],
+    'no-console': 0,
+    'eqeqeq': 2,
+    'no-return-await': 2,
+    'require-await': 2,
     'react/jsx-uses-react': 1,
     'react/jsx-no-undef': 2,
     'react/jsx-wrap-multilines': 2,
     'react/no-string-refs': 0,
-    'prettier/prettier': [
-      'error',
-      {
-        'singleQuote': true,
-        'trailingComma': "all"
-      }
-    ],
-    'eqeqeq': ['error', 'always'],
-    'no-return-await': 2,
-    'require-await': 2,
-    'comma-dangle': ['error', 'always-multiline'],
-    'semi': ['error', 'always'],
-    'no-console': 0,
   },
 };
